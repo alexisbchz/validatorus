@@ -21,6 +21,18 @@ export function decorate(validator: Validator): PropertyDecorator {
 
     const validators = propertyDescriptor[propertyKey];
 
+    if (validator.typeChecker) {
+      const { typeChecker, validationFunction } = validator;
+
+      validator.validationFunction = function (property: any) {
+        if (!typeChecker(property)) {
+          return false;
+        }
+
+        return validationFunction(property);
+      };
+    }
+
     if (validators) {
       validators.push(validator);
     } else {

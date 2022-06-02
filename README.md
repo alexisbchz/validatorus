@@ -34,7 +34,7 @@ console.log(result);
 /*
   {
     errors: {
-      name: ["This field should contain between 3 and 10 characters"]
+      name: ["This field should contain between 3 and 10 characters."]
     }
   }
 */
