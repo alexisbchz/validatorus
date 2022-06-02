@@ -22,13 +22,8 @@ export function validate<T extends abstract new (...args: any[]) => any>(
 
   for (const key in validators) {
     // Handle the case of a missing key in the object to validate.
-    if (!objectToValidate[key]) {
-      if (isPropertyOptional(decoratedClass.prototype, key)) {
-        // Return the validated object if the object is valid.
-        const result = plainToClass(objectToValidate, decoratedClass);
-
-        return { result };
-      } else {
+    if (objectToValidate[key] === undefined) {
+      if (!isPropertyOptional(decoratedClass.prototype, key)) {
         if (errors[key]) {
           errors[key].push("This field is required.");
         } else {
