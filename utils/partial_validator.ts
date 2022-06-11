@@ -1,12 +1,12 @@
 import type { Validator } from "../types.ts";
 
 export function PartialValidator<T extends new (...args: any[]) => any>(
-  decoratedClass: T
+  decoratedClass: T,
 ) {
   // Get property keys from the decorated class.
   const validators = Object.getOwnPropertyDescriptor(
     decoratedClass.prototype,
-    "__validators__"
+    "__validators__",
   )?.value as Record<string, Validator[]>;
 
   const propertyKeys = Object.keys(validators);
@@ -22,7 +22,7 @@ export function PartialValidator<T extends new (...args: any[]) => any>(
   // Push the property keys into the optional fields array.
   const optionalFields = (Object.getOwnPropertyDescriptor(
     decoratedClass,
-    "__optional_fields__"
+    "__optional_fields__",
   )?.value || []) as string[];
 
   optionalFields.push(...propertyKeys);

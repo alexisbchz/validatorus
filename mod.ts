@@ -1,5 +1,7 @@
 // Decorators
+export * from "./decorators/numbers/is_negative.ts";
 export * from "./decorators/numbers/is_number.ts";
+export * from "./decorators/numbers/is_positive.ts";
 export * from "./decorators/numbers/max.ts";
 export * from "./decorators/numbers/min.ts";
 

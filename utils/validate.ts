@@ -8,12 +8,12 @@ import { Validator } from "../types.ts";
  */
 export function validate<T extends abstract new (...args: any[]) => any>(
   objectToValidate: InstanceType<T>,
-  decoratedClass: T
+  decoratedClass: T,
 ) {
   // Get validators from the decorated class.
   let validators = (Object.getOwnPropertyDescriptor(
     decoratedClass,
-    "__validators__"
+    "__validators__",
   )?.value || {}) as Record<string, Validator[]>;
 
   if (decoratedClass.prototype.__validators__) {
@@ -73,14 +73,14 @@ export function validate<T extends abstract new (...args: any[]) => any>(
  * @returns The instantiated object.
  */
 export const plainToClass = <
-  T extends abstract new (...args: unknown[]) => unknown
+  T extends abstract new (...args: unknown[]) => unknown,
 >(
   plainObject: InstanceType<T>,
-  target: T
+  target: T,
 ): InstanceType<T> => {
   return Object.assign(
     Reflect.construct(target, []),
-    plainObject
+    plainObject,
   ) as InstanceType<T>;
 };
 
@@ -92,11 +92,11 @@ export const plainToClass = <
  */
 function isPropertyOptional(
   target: Object,
-  propertyKey: string | symbol
+  propertyKey: string | symbol,
 ): boolean {
   const optionalFields = (Object.getOwnPropertyDescriptor(
     target,
-    "__optional_fields__"
+    "__optional_fields__",
   )?.value || []) as string[];
 
   const additionalOptionalFields =

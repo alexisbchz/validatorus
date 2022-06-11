@@ -14,7 +14,7 @@ export function IsOptional() {
     // Push the field into the optional fields array.
     const optionalFields = Object.getOwnPropertyDescriptor(
       target,
-      "__optional_fields__"
+      "__optional_fields__",
     )!.value;
 
     optionalFields.push(propertyKey);
