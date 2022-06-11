@@ -16,8 +16,10 @@ export function decorate(validator: Validator): PropertyDecorator {
     }
 
     // Push the validator into the validators object.
-    const propertyDescriptor =
-      Object.getOwnPropertyDescriptor(target, "__validators__")!.value;
+    const propertyDescriptor = Object.getOwnPropertyDescriptor(
+      target,
+      "__validators__"
+    )!.value;
 
     const validators = propertyDescriptor[propertyKey];
 

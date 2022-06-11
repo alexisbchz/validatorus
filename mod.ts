@@ -10,4 +10,5 @@ export * from "./decorators/is_optional.ts";
 
 // Utils
 export * from "./utils/decorate.ts";
+export * from "./utils/partial_validator.ts";
 export * from "./utils/validate.ts";
