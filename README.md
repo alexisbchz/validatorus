@@ -2,39 +2,77 @@
 
 A class-based validator for Deno.
 
-## Example
+No external dependencies.
+
+## Usage
+
+Create a class, and decorate the properties you want to validate.
 
 ```typescript
 import {
-  IsNumber,
   IsString,
+  IsEmail,
+  PartialValidator,
   Length,
+  IsOptional,
+  IsNumber,
+  IsInteger,
   Min,
   validate,
 } from "https://deno.land/x/validatorus/mod.ts";
 
-class User {
+class CreateUserValidator {
   @IsString()
-  @Length(3, 10)
-  name!: string;
+  @IsEmail()
+  email!: string;
 
   @IsNumber()
-  @Min(18)
+  @IsInteger()
+  @Min(0)
   age!: number;
+
+  @IsString()
+  @Length(10, 255)
+  password!: string;
 }
-
-const user = {
-  name: "Jean-Claude Vandamme",
-  age: 61,
+const createUserPayload: any = {
+  email: "john.doe@gmail.com",
+  age: -5.2,
 };
-
-const result = validate(user, User);
-console.log(result);
-
+console.log(
+  "createUserPayload",
+  validate(createUserPayload, CreateUserValidator)
+);
 /*
-  {
+  createUserPayload {
     errors: {
-      name: ["This field should contain between 3 and 10 characters."]
+      age: [
+        "This field should be greater than or equal to 0.",
+        "This field should be an integer."
+      ],
+      password: [ "This field is required." ]
+    }
+  }
+*/
+
+class UpdateUserValidator extends PartialValidator(CreateUserValidator) {
+  @IsOptional()
+  @IsString()
+  @Length(10, 255)
+  confirmationPassword?: string;
+}
+const updateUserPayload: any = {
+  password: "to_b$_4war€_0R_nOT_to_BE",
+  confirmationPassword: "t0o$hort",
+};
+console.log(
+  "updateUserPayload",
+  validate(updateUserPayload, UpdateUserValidator)
+);
+/*
+  updateUserPayload {
+    errors: {
+      confirmationPassword: [ "This field should contain between 10 and 255 characters" ]
     }
   }
 */

@@ -3,20 +3,25 @@
  */
 export function IsOptional() {
   return function (target: Object, propertyKey: string | symbol) {
-    // Put the optional fields array into the target, if not exists.
-    if (!Object.getOwnPropertyDescriptor(target, "__optional_fields__")) {
-      Object.defineProperty(target.constructor, "__optional_fields__", {
+    // Initialize the optional fields array into the target, if not exists.
+    if (
+      !Object.getOwnPropertyDescriptor(
+        Object.getPrototypeOf(target),
+        "__optional_fields__"
+      )
+    ) {
+      Object.defineProperty(target, "__optional_fields__", {
         enumerable: false,
         value: [],
       });
     }
 
-    // Push the field into the optional fields array.
+    // Push the property keys into the optional fields array.
     const optionalFields = Object.getOwnPropertyDescriptor(
-      target,
-      "__optional_fields__",
-    )!.value;
+      Object.getPrototypeOf(target),
+      "__optional_fields__"
+    )?.value as string[];
 
-    optionalFields.push(propertyKey);
+    optionalFields.push(propertyKey.toString());
   };
 }
